@@ -1,2 +1,2 @@
 # smartDice
-Smart dice for auto detection of roll
+Smart dice for auto detection of rolls for dungeons and Dragons.
