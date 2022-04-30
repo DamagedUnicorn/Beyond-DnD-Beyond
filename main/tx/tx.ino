@@ -59,28 +59,28 @@ void loop()
   AcY = (0.0002442002442002442 *  AcY) + 0.006105006105006083;
   AcZ = (0.00023923444976076556 * AcZ) + 0.14832535885167464;
 
-  variance = 0;
-  mean = 0;
-  for (int i = 0; i < Nvar - 1; i++) {
-    stdArray[i] = stdArray[i + 1];
-  }
-  stdArray[Nvar - 1] = AcX;
-  for (int i = 0; i < Nvar; i++){
-    mean += stdArray[i];
-    }
-  mean /= Nvar;
-  for (int i = 0; i < Nvar; i++) {
-    stdArray[i] -= mean;
-   variance += pow(stdArray[i], 2);
-  }
-  variance /= Nvar;
-  Serial.println(variance, 5);
+//  variance = 0;
+//  mean = 0;
+//  for (int i = 0; i < Nvar - 1; i++) {
+//    stdArray[i] = stdArray[i + 1];
+//  }
+//  stdArray[Nvar - 1] = AcX;
+//  for (int i = 0; i < Nvar; i++){
+//    mean += stdArray[i];
+//    }
+//  mean /= Nvar;
+//  for (int i = 0; i < Nvar; i++) {
+//    stdArray[i] -= mean;
+//   variance += pow(stdArray[i], 2);
+//  }
+//  variance /= Nvar;
+//  Serial.println(variance, 5);
   //Serial.println(mean);
   
 
 
-  //d20Side = d20(AcX, AcY, AcZ);
-  //sendPackage(d20Side);
-
+  d20Side = d20(AcX, AcY, AcZ);
+  sendPackage(d20Side);
+  delay(10);
 
 }
