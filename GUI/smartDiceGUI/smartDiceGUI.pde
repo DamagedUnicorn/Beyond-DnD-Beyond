@@ -1,3 +1,5 @@
+// https://colab.research.google.com/drive/1rfc6Qd7l-PSdIHKEMnQdeImXL_XjI5-v?usp=sharing#scrollTo=l-8AvJV3T96e
+
 import processing.serial.*;
 import controlP5.*;
 
@@ -10,6 +12,7 @@ final String characterId = "65349572";
 final String dndUrl = "https://character-service.dndbeyond.com/character/v3/character/";
 
 JSONObject json;
+JSONArray jsonStats;
 static String lineVal;    // Data received from the serial port
 int sensorVal = 0;
 int tmp;
@@ -18,7 +21,11 @@ int modifier;
 String currentRoll = "Awating selection";
 String name;
 
-final int statColors[] = {color(242, 34, 34), // STR
+int[] coreStats = new int[6];
+
+
+final int statColors[] = {
+  color(242, 34, 34), // STR
   color(34, 242, 41), // DEX
   color(242, 165, 34), // CON
   color(34, 152, 242), // INT
@@ -34,6 +41,11 @@ void setup() {
   fullScreen();
 
   json = loadJSONObject(dndUrl + characterId).getJSONObject("data");
+  jsonStats = json.getJSONArray("stats");
+
+  for (int i = 0; i < 6; i++) {
+    coreStats[i] = jsonStats.getJSONObject(i).getInt("value");
+  }
 
   name = json.getString("name");
 
