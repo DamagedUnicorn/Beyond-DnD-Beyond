@@ -122,6 +122,12 @@ void setup() {
   cp5.addButton("check17").setLabel("Stealth")       .setPosition(400, 500).setSize(buttonWidth, buttonHeight).setFont(font).setColorBackground(statColors[1]);
   cp5.addButton("check18").setLabel("Survival")      .setPosition(400, 600).setSize(buttonWidth, buttonHeight).setFont(font).setColorBackground(statColors[5]);
   
+  cp5.addButton("save1").setLabel("STR save").setPosition(width/2-buttonWidth/2, 100).setSize(buttonWidth, buttonHeight).setFont(font).setColorBackground(statColors[0]);
+  cp5.addButton("save2").setLabel("DEX save").setPosition(width/2-buttonWidth/2, 200).setSize(buttonWidth, buttonHeight).setFont(font).setColorBackground(statColors[1]);
+  cp5.addButton("save3").setLabel("CON save").setPosition(width/2-buttonWidth/2, 300).setSize(buttonWidth, buttonHeight).setFont(font).setColorBackground(statColors[2]);
+  cp5.addButton("save4").setLabel("INT save").setPosition(width/2-buttonWidth/2, 400).setSize(buttonWidth, buttonHeight).setFont(font).setColorBackground(statColors[3]);
+  cp5.addButton("save5").setLabel("WIS save").setPosition(width/2-buttonWidth/2, 500).setSize(buttonWidth, buttonHeight).setFont(font).setColorBackground(statColors[4]);
+  cp5.addButton("save6").setLabel("CHA save").setPosition(width/2-buttonWidth/2, 600).setSize(buttonWidth, buttonHeight).setFont(font).setColorBackground(statColors[5]);
 
   //cp5.addButton("B")  //The button
   //  .setLabel("Perception")
