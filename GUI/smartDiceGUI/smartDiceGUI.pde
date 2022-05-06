@@ -40,12 +40,12 @@ int modValue;
 PImage img;
 
 final int statColors[] = {
-//  color(242, 34, 34), // STR
-//  color(34, 242, 41), // DEX
-//  color(242, 165, 34), // CON
-//  color(34, 152, 242), // INT
-//  color(222, 216, 32), // WIS
-//  color(222, 32, 216)  // CHA
+  //  color(242, 34, 34), // STR
+  //  color(34, 242, 41), // DEX
+  //  color(242, 165, 34), // CON
+  //  color(34, 152, 242), // INT
+  //  color(222, 216, 32), // WIS
+  //  color(222, 32, 216)  // CHA
   color(153, 65, 54), // STR
   color(73, 91, 74), // DEX
   color(205, 136, 59), // CON
@@ -68,10 +68,10 @@ void setup() {
   characterClass = jsonClasses.getJSONObject(0).getJSONObject("definition").getString("name");
   level = jsonClasses.getJSONObject(0).getInt("level");
   proficiencyBonus = getProficiencyBonus(level);
-  
+
   img = loadImage("classSymbols/" + characterClass + ".png");
   img.resize(85, 85);
-  
+
 
   for (int i = 0; i < 6; i++) {
     coreStats[i] = jsonStats.getJSONObject(i).getInt("value");
@@ -103,12 +103,12 @@ void setup() {
   abilityModifiers[16] = getModifierFromScore(modifiedStats[1]) + getProficiencyModifiers("stealth")         * proficiencyBonus;
   abilityModifiers[17] = getModifierFromScore(modifiedStats[4]) + getProficiencyModifiers("survival")        * proficiencyBonus;
 
-  savingThrowModifiers[0] = getModifierFromScore(modifiedStats[0]) * getSavingThrowProficiencyModifiers("strength") * proficiencyBonus;
-  savingThrowModifiers[1] = getModifierFromScore(modifiedStats[1]) * getSavingThrowProficiencyModifiers("dexterity") * proficiencyBonus;
-  savingThrowModifiers[2] = getModifierFromScore(modifiedStats[2]) * getSavingThrowProficiencyModifiers("constitution") * proficiencyBonus;
-  savingThrowModifiers[3] = getModifierFromScore(modifiedStats[3]) * getSavingThrowProficiencyModifiers("intelligence") * proficiencyBonus;
-  savingThrowModifiers[4] = getModifierFromScore(modifiedStats[4]) * getSavingThrowProficiencyModifiers("wisdom") * proficiencyBonus;
-  savingThrowModifiers[5] = getModifierFromScore(modifiedStats[5]) * getSavingThrowProficiencyModifiers("charisma") * proficiencyBonus;
+  savingThrowModifiers[0] = getModifierFromScore(modifiedStats[0]) + getSavingThrowProficiencyModifiers("strength") * proficiencyBonus;
+  savingThrowModifiers[1] = getModifierFromScore(modifiedStats[1]) + getSavingThrowProficiencyModifiers("dexterity") * proficiencyBonus;
+  savingThrowModifiers[2] = getModifierFromScore(modifiedStats[2]) + getSavingThrowProficiencyModifiers("constitution") * proficiencyBonus;
+  savingThrowModifiers[3] = getModifierFromScore(modifiedStats[3]) + getSavingThrowProficiencyModifiers("intelligence") * proficiencyBonus;
+  savingThrowModifiers[4] = getModifierFromScore(modifiedStats[4]) + getSavingThrowProficiencyModifiers("wisdom") * proficiencyBonus;
+  savingThrowModifiers[5] = getModifierFromScore(modifiedStats[5]) + getSavingThrowProficiencyModifiers("charisma") * proficiencyBonus;
 
   //println(coreStats);
   //println(modifiedStats);
@@ -150,6 +150,8 @@ void setup() {
   cp5.addButton("save4").setLabel("INT save").setPosition(width/2-buttonWidth/2, 400).setSize(buttonWidth, buttonHeight).setFont(font).setColorBackground(statColors[3]);
   cp5.addButton("save5").setLabel("WIS save").setPosition(width/2-buttonWidth/2, 500).setSize(buttonWidth, buttonHeight).setFont(font).setColorBackground(statColors[4]);
   cp5.addButton("save6").setLabel("CHA save").setPosition(width/2-buttonWidth/2, 600).setSize(buttonWidth, buttonHeight).setFont(font).setColorBackground(statColors[5]);
+
+  cp5.addButton("initiative").setLabel("Initiative").setPosition(50, 750).setSize(buttonWidth, buttonHeight).setFont(font).setColorBackground(color(255, 0, 0));
 }
 
 void draw() {
@@ -158,7 +160,12 @@ void draw() {
   background(51);
   textSize(80);
   textAlign(CENTER, BOTTOM);
-  text(val, width/2, height-40);
+  //text(val, width/2, height-40);
+  if (modifier >= 0) {
+    text(sensorVal + "+" + modifier + "=" + val, width/2, height-40);
+  } else {
+    text(sensorVal + "" + modifier + "=" + val, width/2, height-40);
+  }
 
   textSize(40);
   text(currentRoll, width/2, height-140);
@@ -167,9 +174,8 @@ void draw() {
 
   myRead();
   val = sensorVal + modifier;
-  
+
   image(img, width/2 - 300, 5);
-  
 }
 
 void controlEvent(CallbackEvent event) {
@@ -270,6 +276,10 @@ void controlEvent(CallbackEvent event) {
     case "/save6":
       currentRoll = "CHA save";
       modifier = savingThrowModifiers[5];
+      break;
+    case "/initiative":
+      currentRoll = "Initiative";
+      modifier = getModifierFromScore(modifiedStats[1]);
       break;
     }
   }
