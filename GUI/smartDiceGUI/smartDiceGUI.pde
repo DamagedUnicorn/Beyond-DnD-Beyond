@@ -8,7 +8,7 @@ ControlP5 cp5;
 PFont font;
 
 String myPort = "/dev/cu.usbmodem14301";
-final String characterId = "65349572";
+final String characterId = "65349572"; // 65349572, 65602976
 final String dndUrl = "https://character-service.dndbeyond.com/character/v3/character/";
 
 JSONObject json;
@@ -32,17 +32,26 @@ int proficiencyBonus;
 int s;
 String subType;
 String type;
+String characterClass;
 
 int[] abilityModifiers = new int[18];
 int modValue;
 
+PImage img;
+
 final int statColors[] = {
-  color(242, 34, 34), // STR
-  color(34, 242, 41), // DEX
-  color(242, 165, 34), // CON
-  color(34, 152, 242), // INT
-  color(222, 216, 32), // WIS
-  color(222, 32, 216)  // CHA
+//  color(242, 34, 34), // STR
+//  color(34, 242, 41), // DEX
+//  color(242, 165, 34), // CON
+//  color(34, 152, 242), // INT
+//  color(222, 216, 32), // WIS
+//  color(222, 32, 216)  // CHA
+  color(153, 65, 54), // STR
+  color(73, 91, 74), // DEX
+  color(205, 136, 59), // CON
+  color(61, 90, 128), // INT
+  color(173, 173, 173), // WIS
+  color(152, 120, 139)  // CHA
 };
 
 final int buttonWidth = 150;
@@ -56,8 +65,13 @@ void setup() {
   jsonStats = json.getJSONArray("stats");
   jsonClasses = json.getJSONArray("classes");
 
+  characterClass = jsonClasses.getJSONObject(0).getJSONObject("definition").getString("name");
   level = jsonClasses.getJSONObject(0).getInt("level");
   proficiencyBonus = getProficiencyBonus(level);
+  
+  img = loadImage("classSymbols/" + characterClass + ".png");
+  img.resize(85, 85);
+  
 
   for (int i = 0; i < 6; i++) {
     coreStats[i] = jsonStats.getJSONObject(i).getInt("value");
@@ -141,7 +155,7 @@ void setup() {
 void draw() {
 
 
-  background(0);
+  background(51);
   textSize(80);
   textAlign(CENTER, BOTTOM);
   text(val, width/2, height-40);
@@ -153,6 +167,9 @@ void draw() {
 
   myRead();
   val = sensorVal + modifier;
+  
+  image(img, width/2 - 300, 5);
+  
 }
 
 void controlEvent(CallbackEvent event) {
