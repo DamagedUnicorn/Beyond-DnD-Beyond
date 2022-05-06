@@ -25,6 +25,7 @@ String name;
 
 int[] coreStats = new int[6];
 int[] modifiedStats = new int[6];
+int[] savingThrowModifiers = new int[6];
 int level;
 int proficiencyBonus;
 
@@ -68,7 +69,7 @@ void setup() {
   modifiedStats[3] = coreStats[3] + getStatModifiers("intelligence-score");
   modifiedStats[4] = coreStats[4] + getStatModifiers("wisdom-score");
   modifiedStats[5] = coreStats[5] + getStatModifiers("charisma-score");
-  
+
   abilityModifiers[0]  = getModifierFromScore(modifiedStats[1]) + getProficiencyModifiers("acrobatics")      * proficiencyBonus;
   abilityModifiers[1]  = getModifierFromScore(modifiedStats[4]) + getProficiencyModifiers("animal-handling") * proficiencyBonus;
   abilityModifiers[2]  = getModifierFromScore(modifiedStats[3]) + getProficiencyModifiers("arcana")          * proficiencyBonus;
@@ -87,6 +88,13 @@ void setup() {
   abilityModifiers[15] = getModifierFromScore(modifiedStats[1]) + getProficiencyModifiers("sleight-of-hand") * proficiencyBonus;
   abilityModifiers[16] = getModifierFromScore(modifiedStats[1]) + getProficiencyModifiers("stealth")         * proficiencyBonus;
   abilityModifiers[17] = getModifierFromScore(modifiedStats[4]) + getProficiencyModifiers("survival")        * proficiencyBonus;
+
+  savingThrowModifiers[0] = getModifierFromScore(modifiedStats[0]) * getSavingThrowProficiencyModifiers("strength") * proficiencyBonus;
+  savingThrowModifiers[1] = getModifierFromScore(modifiedStats[1]) * getSavingThrowProficiencyModifiers("dexterity") * proficiencyBonus;
+  savingThrowModifiers[2] = getModifierFromScore(modifiedStats[2]) * getSavingThrowProficiencyModifiers("constitution") * proficiencyBonus;
+  savingThrowModifiers[3] = getModifierFromScore(modifiedStats[3]) * getSavingThrowProficiencyModifiers("intelligence") * proficiencyBonus;
+  savingThrowModifiers[4] = getModifierFromScore(modifiedStats[4]) * getSavingThrowProficiencyModifiers("wisdom") * proficiencyBonus;
+  savingThrowModifiers[5] = getModifierFromScore(modifiedStats[5]) * getSavingThrowProficiencyModifiers("charisma") * proficiencyBonus;
 
   //println(coreStats);
   //println(modifiedStats);
@@ -121,25 +129,13 @@ void setup() {
   cp5.addButton("check16").setLabel("Sleight of Ha.").setPosition(400, 400).setSize(buttonWidth, buttonHeight).setFont(font).setColorBackground(statColors[1]);
   cp5.addButton("check17").setLabel("Stealth")       .setPosition(400, 500).setSize(buttonWidth, buttonHeight).setFont(font).setColorBackground(statColors[1]);
   cp5.addButton("check18").setLabel("Survival")      .setPosition(400, 600).setSize(buttonWidth, buttonHeight).setFont(font).setColorBackground(statColors[5]);
-  
+
   cp5.addButton("save1").setLabel("STR save").setPosition(width/2-buttonWidth/2, 100).setSize(buttonWidth, buttonHeight).setFont(font).setColorBackground(statColors[0]);
   cp5.addButton("save2").setLabel("DEX save").setPosition(width/2-buttonWidth/2, 200).setSize(buttonWidth, buttonHeight).setFont(font).setColorBackground(statColors[1]);
   cp5.addButton("save3").setLabel("CON save").setPosition(width/2-buttonWidth/2, 300).setSize(buttonWidth, buttonHeight).setFont(font).setColorBackground(statColors[2]);
   cp5.addButton("save4").setLabel("INT save").setPosition(width/2-buttonWidth/2, 400).setSize(buttonWidth, buttonHeight).setFont(font).setColorBackground(statColors[3]);
   cp5.addButton("save5").setLabel("WIS save").setPosition(width/2-buttonWidth/2, 500).setSize(buttonWidth, buttonHeight).setFont(font).setColorBackground(statColors[4]);
   cp5.addButton("save6").setLabel("CHA save").setPosition(width/2-buttonWidth/2, 600).setSize(buttonWidth, buttonHeight).setFont(font).setColorBackground(statColors[5]);
-
-  //cp5.addButton("B")  //The button
-  //  .setLabel("Perception")
-  //  .setPosition(225, 100)  //x and y coordinates of upper left corner of button
-  //  .setSize(buttonWidth, buttonHeight)      //(width, height)
-  //  .setFont(font);
-
-  //cp5.addButton("C")  //The button
-  //  .setLabel("DEX Save")
-  //  .setPosition(400, 100)  //x and y coordinates of upper left corner of button
-  //  .setSize(buttonWidth, buttonHeight)      //(width, height)
-  //  .setFont(font);
 }
 
 void draw() {
@@ -234,14 +230,30 @@ void controlEvent(CallbackEvent event) {
       currentRoll = "Survival";
       modifier = abilityModifiers[17];
       break;
-      //case "/B":
-      //  currentRoll = "Perception";
-      //  modifier = 0;
-      //  break;
-      //case "/C":
-      //  currentRoll = "DEX save";
-      //  modifier = 7;
-      //  break;
+    case "/save1":
+      currentRoll = "STR save";
+      modifier = savingThrowModifiers[0];
+      break;
+    case "/save2":
+      currentRoll = "DEX save";
+      modifier = savingThrowModifiers[1];
+      break;
+    case "/save3":
+      currentRoll = "CON save";
+      modifier = savingThrowModifiers[2];
+      break;
+    case "/save4":
+      currentRoll = "INT save";
+      modifier = savingThrowModifiers[3];
+      break;
+    case "/save5":
+      currentRoll = "WIS save";
+      modifier = savingThrowModifiers[4];
+      break;
+    case "/save6":
+      currentRoll = "CHA save";
+      modifier = savingThrowModifiers[5];
+      break;
     }
   }
 }
@@ -275,11 +287,82 @@ int getProficiencyBonus(int lev) {
   }
 }
 
+int getSavingThrowProficiencyModifiers(String skill) {
+  int proficiencyMultiplier = 0;
+
+  jsonMod = json.getJSONObject("modifiers").getJSONArray("race");
+  s = jsonMod.size();
+  for (int i = 0; i < s; i++) {
+    type = jsonMod.getJSONObject(i).getString("type");
+    subType = jsonMod.getJSONObject(i).getString("subType");
+    if ((type.equals("proficiency")) && (subType.equals(skill + "-saving-throws"))) {
+      proficiencyMultiplier = 1;
+      break;
+    }
+  }
+
+  jsonMod = json.getJSONObject("modifiers").getJSONArray("class");
+  s = jsonMod.size();
+  for (int i = 0; i < s; i++) {
+    type = jsonMod.getJSONObject(i).getString("type");
+    subType = jsonMod.getJSONObject(i).getString("subType");
+    if ((type.equals("proficiency")) && (subType.equals(skill + "-saving-throws"))) {
+      proficiencyMultiplier = 1;
+      break;
+    }
+  }
+
+  jsonMod = json.getJSONObject("modifiers").getJSONArray("background");
+  s = jsonMod.size();
+  for (int i = 0; i < s; i++) {
+    type = jsonMod.getJSONObject(i).getString("type");
+    subType = jsonMod.getJSONObject(i).getString("subType");
+    if ((type.equals("proficiency")) && (subType.equals(skill + "-saving-throws"))) {
+      proficiencyMultiplier = 1;
+      break;
+    }
+  }
+
+  jsonMod = json.getJSONObject("modifiers").getJSONArray("item");
+  s = jsonMod.size();
+  for (int i = 0; i < s; i++) {
+    type = jsonMod.getJSONObject(i).getString("type");
+    subType = jsonMod.getJSONObject(i).getString("subType");
+    if ((type.equals("proficiency")) && (subType.equals(skill + "-saving-throws"))) {
+      proficiencyMultiplier = 1;
+      break;
+    }
+  }
+
+  jsonMod = json.getJSONObject("modifiers").getJSONArray("feat");
+  s = jsonMod.size();
+  for (int i = 0; i < s; i++) {
+    type = jsonMod.getJSONObject(i).getString("type");
+    subType = jsonMod.getJSONObject(i).getString("subType");
+    if ((type.equals("proficiency")) && (subType.equals(skill + "-saving-throws"))) {
+      proficiencyMultiplier = 1;
+      break;
+    }
+  }
+
+  jsonMod = json.getJSONObject("modifiers").getJSONArray("condition");
+  s = jsonMod.size();
+  for (int i = 0; i < s; i++) {
+    type = jsonMod.getJSONObject(i).getString("type");
+    subType = jsonMod.getJSONObject(i).getString("subType");
+    if ((type.equals("proficiency")) && (subType.equals(skill + "-saving-throws"))) {
+      proficiencyMultiplier = 1;
+      break;
+    }
+  }
+
+  return proficiencyMultiplier;
+}
 
 int getProficiencyModifiers(String skill) {
 
   int proficiencyMultiplier = 0;
-  
+
   jsonMod = json.getJSONObject("modifiers").getJSONArray("race");
   s = jsonMod.size();
   for (int i = 0; i < s; i++) {
@@ -357,7 +440,7 @@ int getProficiencyModifiers(String skill) {
       break;
     }
   }
-  
+
   return proficiencyMultiplier;
 }
 
@@ -433,83 +516,3 @@ int getStatModifiers(String skill) {
 int getModifierFromScore(int score) {
   return floor((score - 10) / 2);
 }
-
-
-//int checkProficiency(String skill) {
-
-//  int profMultiplier = 0;
-
-//  jsonMod = json.getJSONObject("modifiers").getJSONArray("race");
-//  s = jsonMod.size();
-//  for (int i = 0; i < s; i++) {
-//    subType = jsonMod.getJSONObject(i).getString("subType");
-//    type = jsonMod.getJSONObject(i).getString("subType");
-//    if (subType == skill && type == "proficiency" && profMultiplier < 1) {
-//      profMultiplier = 1;
-//    } else if (subType == skill && type == "expertise" && profMultiplier < 2) {
-//      profMultiplier = 2;
-//    }
-//  }
-
-//  jsonMod = json.getJSONObject("modifiers").getJSONArray("class");
-//  s = jsonMod.size();
-//  for (int i = 0; i < s; i++) {
-//    subType = jsonMod.getJSONObject(i).getString("subType");
-//    type = jsonMod.getJSONObject(i).getString("subType");
-//    if (subType == skill && type == "proficiency" && profMultiplier < 1) {
-//      profMultiplier = 1;
-//    } else if (subType == skill && type == "expertise" && profMultiplier < 2) {
-//      profMultiplier = 2;
-//    }
-//  }
-
-//  jsonMod = json.getJSONObject("modifiers").getJSONArray("background");
-//  s = jsonMod.size();
-//  for (int i = 0; i < s; i++) {
-//    subType = jsonMod.getJSONObject(i).getString("subType");
-//    type = jsonMod.getJSONObject(i).getString("subType");
-//    if (subType == skill && type == "proficiency" && profMultiplier < 1) {
-//      profMultiplier = 1;
-//    } else if (subType == skill && type == "expertise" && profMultiplier < 2) {
-//      profMultiplier = 2;
-//    }
-//  }
-
-//  jsonMod = json.getJSONObject("modifiers").getJSONArray("item");
-//  s = jsonMod.size();
-//  for (int i = 0; i < s; i++) {
-//    subType = jsonMod.getJSONObject(i).getString("subType");
-//    type = jsonMod.getJSONObject(i).getString("subType");
-//    if (subType == skill && type == "proficiency" && profMultiplier < 1) {
-//      profMultiplier = 1;
-//    } else if (subType == skill && type == "expertise" && profMultiplier < 2) {
-//      profMultiplier = 2;
-//    }
-//  }
-
-//  jsonMod = json.getJSONObject("modifiers").getJSONArray("feat");
-//  s = jsonMod.size();
-//  for (int i = 0; i < s; i++) {
-//    subType = jsonMod.getJSONObject(i).getString("subType");
-//    type = jsonMod.getJSONObject(i).getString("subType");
-//    if (subType == skill && type == "proficiency" && profMultiplier < 1) {
-//      profMultiplier = 1;
-//    } else if (subType == skill && type == "expertise" && profMultiplier < 2) {
-//      profMultiplier = 2;
-//    }
-//  }
-
-//  jsonMod = json.getJSONObject("modifiers").getJSONArray("condition");
-//  s = jsonMod.size();
-//  for (int i = 0; i < s; i++) {
-//    subType = jsonMod.getJSONObject(i).getString("subType");
-//    type = jsonMod.getJSONObject(i).getString("subType");
-//    if (subType == skill && type == "proficiency" && profMultiplier < 1) {
-//      profMultiplier = 1;
-//    } else if (subType == skill && type == "expertise" && profMultiplier < 2) {
-//      profMultiplier = 2;
-//    }
-//  }
-
-//  return profMultiplier;
-//}
