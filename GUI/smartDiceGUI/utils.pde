@@ -1,0 +1,363 @@
+void controlEvent(CallbackEvent event) {
+  if (event.getAction() == ControlP5.ACTION_CLICK) {
+    switch(event.getController().getAddress()) {
+    case "/check1":
+      currentRoll = "Acrobatics";
+      modifier = abilityModifiers[0];
+      break;
+    case "/check2":
+      currentRoll = "Animal Handling";
+      modifier = abilityModifiers[1];
+      break;
+    case "/check3":
+      currentRoll = "Arcana";
+      modifier = abilityModifiers[2];
+      break;
+    case "/check4":
+      currentRoll = "Athletics";
+      modifier = abilityModifiers[3];
+      break;
+    case "/check5":
+      currentRoll = "Deception";
+      modifier = abilityModifiers[4];
+      break;
+    case "/check6":
+      currentRoll = "History";
+      modifier = abilityModifiers[5];
+      break;
+    case "/check7":
+      currentRoll = "Insight";
+      modifier = abilityModifiers[6];
+      break;
+    case "/check8":
+      currentRoll = "Intimidation";
+      modifier = abilityModifiers[7];
+      break;
+    case "/check9":
+      currentRoll = "Investigation";
+      modifier = abilityModifiers[8];
+      break;
+    case "/check10":
+      currentRoll = "Medicine";
+      modifier = abilityModifiers[9];
+      break;
+    case "/check11":
+      currentRoll = "Nature";
+      modifier = abilityModifiers[10];
+      break;
+    case "/check12":
+      currentRoll = "Perception";
+      modifier = abilityModifiers[11];
+      break;
+    case "/check13":
+      currentRoll = "Performance";
+      modifier = abilityModifiers[12];
+      break;
+    case "/check14":
+      currentRoll = "Persuasion";
+      modifier = abilityModifiers[13];
+      break;
+    case "/check15":
+      currentRoll = "Religion";
+      modifier = abilityModifiers[14];
+      break;
+    case "/check16":
+      currentRoll = "Sleight of Hand";
+      modifier = abilityModifiers[15];
+      break;
+    case "/check17":
+      currentRoll = "Stealth";
+      modifier = abilityModifiers[16];
+      break;
+    case "/check18":
+      currentRoll = "Survival";
+      modifier = abilityModifiers[17];
+      break;
+    case "/save1":
+      currentRoll = "STR save";
+      modifier = savingThrowModifiers[0];
+      break;
+    case "/save2":
+      currentRoll = "DEX save";
+      modifier = savingThrowModifiers[1];
+      break;
+    case "/save3":
+      currentRoll = "CON save";
+      modifier = savingThrowModifiers[2];
+      break;
+    case "/save4":
+      currentRoll = "INT save";
+      modifier = savingThrowModifiers[3];
+      break;
+    case "/save5":
+      currentRoll = "WIS save";
+      modifier = savingThrowModifiers[4];
+      break;
+    case "/save6":
+      currentRoll = "CHA save";
+      modifier = savingThrowModifiers[5];
+      break;
+    case "/initiative":
+      currentRoll = "Initiative";
+      modifier = getModifierFromScore(modifiedStats[1]);
+      break;
+    }
+  }
+}
+
+void myRead() {
+  if ( port.available() > 0) {  // If data is available,
+    lineVal = port.readStringUntil('\n'); 
+    try {
+      tmp = Integer.valueOf(lineVal.trim());
+      if (tmp != 0) {
+        sensorVal = tmp;
+      }
+    }
+    catch(Exception e) {
+      ;
+    }
+  }
+}
+
+int getProficiencyBonus(int lev) {
+  if (lev <= 4) {
+    return 2;
+  } else if (lev <= 8) {
+    return 3;
+  } else if (lev <= 12) {
+    return 4;
+  } else if (lev <= 16) {
+    return 5;
+  } else {
+    return 6;
+  }
+}
+
+int getSavingThrowProficiencyModifiers(String skill) {
+  int proficiencyMultiplier = 0;
+
+  jsonMod = json.getJSONObject("modifiers").getJSONArray("race");
+  size_ = jsonMod.size();
+  for (int i = 0; i < size_; i++) {
+    type = jsonMod.getJSONObject(i).getString("type");
+    subType = jsonMod.getJSONObject(i).getString("subType");
+    if ((type.equals("proficiency")) && (subType.equals(skill + "-saving-throws"))) {
+      proficiencyMultiplier = 1;
+      break;
+    }
+  }
+
+  jsonMod = json.getJSONObject("modifiers").getJSONArray("class");
+  size_ = jsonMod.size();
+  for (int i = 0; i < size_; i++) {
+    type = jsonMod.getJSONObject(i).getString("type");
+    subType = jsonMod.getJSONObject(i).getString("subType");
+    if ((type.equals("proficiency")) && (subType.equals(skill + "-saving-throws"))) {
+      proficiencyMultiplier = 1;
+      break;
+    }
+  }
+
+  jsonMod = json.getJSONObject("modifiers").getJSONArray("background");
+  size_ = jsonMod.size();
+  for (int i = 0; i < size_; i++) {
+    type = jsonMod.getJSONObject(i).getString("type");
+    subType = jsonMod.getJSONObject(i).getString("subType");
+    if ((type.equals("proficiency")) && (subType.equals(skill + "-saving-throws"))) {
+      proficiencyMultiplier = 1;
+      break;
+    }
+  }
+
+  jsonMod = json.getJSONObject("modifiers").getJSONArray("item");
+  size_ = jsonMod.size();
+  for (int i = 0; i < size_; i++) {
+    type = jsonMod.getJSONObject(i).getString("type");
+    subType = jsonMod.getJSONObject(i).getString("subType");
+    if ((type.equals("proficiency")) && (subType.equals(skill + "-saving-throws"))) {
+      proficiencyMultiplier = 1;
+      break;
+    }
+  }
+
+  jsonMod = json.getJSONObject("modifiers").getJSONArray("feat");
+  size_ = jsonMod.size();
+  for (int i = 0; i < size_; i++) {
+    type = jsonMod.getJSONObject(i).getString("type");
+    subType = jsonMod.getJSONObject(i).getString("subType");
+    if ((type.equals("proficiency")) && (subType.equals(skill + "-saving-throws"))) {
+      proficiencyMultiplier = 1;
+      break;
+    }
+  }
+
+  jsonMod = json.getJSONObject("modifiers").getJSONArray("condition");
+  size_ = jsonMod.size();
+  for (int i = 0; i < size_; i++) {
+    type = jsonMod.getJSONObject(i).getString("type");
+    subType = jsonMod.getJSONObject(i).getString("subType");
+    if ((type.equals("proficiency")) && (subType.equals(skill + "-saving-throws"))) {
+      proficiencyMultiplier = 1;
+      break;
+    }
+  }
+
+  return proficiencyMultiplier;
+}
+
+int getProficiencyModifiers(String skill) {
+
+  int proficiencyMultiplier = 0;
+
+  jsonMod = json.getJSONObject("modifiers").getJSONArray("race");
+  size_ = jsonMod.size();
+  for (int i = 0; i < size_; i++) {
+    type = jsonMod.getJSONObject(i).getString("type");
+    subType = jsonMod.getJSONObject(i).getString("subType");
+    if ((type.equals("proficiency")) && (subType.equals(skill))) {
+      proficiencyMultiplier = 1;
+    } else if ((type.equals("expertise")) && (subType.equals(skill))) {
+      proficiencyMultiplier = 2;
+      break;
+    }
+  }
+
+  jsonMod = json.getJSONObject("modifiers").getJSONArray("class");
+  size_ = jsonMod.size();
+  for (int i = 0; i < size_; i++) {
+    type = jsonMod.getJSONObject(i).getString("type");
+    subType = jsonMod.getJSONObject(i).getString("subType");
+    if ((type.equals("proficiency")) && (subType.equals(skill))) {
+      proficiencyMultiplier = 1;
+    } else if ((type.equals("expertise")) && (subType.equals(skill))) {
+      proficiencyMultiplier = 2;
+      break;
+    }
+  }
+
+  jsonMod = json.getJSONObject("modifiers").getJSONArray("background");
+  size_ = jsonMod.size();
+  for (int i = 0; i < size_; i++) {
+    type = jsonMod.getJSONObject(i).getString("type");
+    subType = jsonMod.getJSONObject(i).getString("subType");
+    if ((type.equals("proficiency")) && (subType.equals(skill))) {
+      proficiencyMultiplier = 1;
+    } else if ((type.equals("expertise")) && (subType.equals(skill))) {
+      proficiencyMultiplier = 2;
+      break;
+    }
+  }
+
+  jsonMod = json.getJSONObject("modifiers").getJSONArray("item");
+  size_ = jsonMod.size();
+  for (int i = 0; i < size_; i++) {
+    type = jsonMod.getJSONObject(i).getString("type");
+    subType = jsonMod.getJSONObject(i).getString("subType");
+    if ((type.equals("proficiency")) && (subType.equals(skill))) {
+      proficiencyMultiplier = 1;
+    } else if ((type.equals("expertise")) && (subType.equals(skill))) {
+      proficiencyMultiplier = 2;
+      break;
+    }
+  }
+
+  jsonMod = json.getJSONObject("modifiers").getJSONArray("feat");
+  size_ = jsonMod.size();
+  for (int i = 0; i < size_; i++) {
+    type = jsonMod.getJSONObject(i).getString("type");
+    subType = jsonMod.getJSONObject(i).getString("subType");
+    if ((type.equals("proficiency")) && (subType.equals(skill))) {
+      proficiencyMultiplier = 1;
+    } else if ((type.equals("expertise")) && (subType.equals(skill))) {
+      proficiencyMultiplier = 2;
+      break;
+    }
+  }
+
+  jsonMod = json.getJSONObject("modifiers").getJSONArray("condition");
+  size_ = jsonMod.size();
+  for (int i = 0; i < size_; i++) {
+    type = jsonMod.getJSONObject(i).getString("type");
+    subType = jsonMod.getJSONObject(i).getString("subType");
+    if ((type.equals("proficiency")) && (subType.equals(skill))) {
+      proficiencyMultiplier = 1;
+    } else if ((type.equals("expertise")) && (subType.equals(skill))) {
+      proficiencyMultiplier = 2;
+      break;
+    }
+  }
+
+  return proficiencyMultiplier;
+}
+
+int getStatModifiers(String skill) {
+
+  int modValueTmp = 0;
+
+  jsonMod = json.getJSONObject("modifiers").getJSONArray("race");
+  size_ = jsonMod.size();
+  for (int i = 0; i < size_; i++) {
+    type = jsonMod.getJSONObject(i).getString("type");
+    subType = jsonMod.getJSONObject(i).getString("subType");
+    if ((type.equals("bonus")) && (subType.equals(skill))) {
+      modValueTmp = modValueTmp + jsonMod.getJSONObject(i).getInt("fixedValue");
+    }
+  }
+
+  jsonMod = json.getJSONObject("modifiers").getJSONArray("class");
+  size_ = jsonMod.size();
+  for (int i = 0; i < size_; i++) {
+    type = jsonMod.getJSONObject(i).getString("type");
+    subType = jsonMod.getJSONObject(i).getString("subType");
+    if ((type.equals("bonus")) && (subType.equals(skill))) {
+      modValueTmp = modValueTmp + jsonMod.getJSONObject(i).getInt("fixedValue");
+    }
+  }
+
+  jsonMod = json.getJSONObject("modifiers").getJSONArray("background");
+  size_ = jsonMod.size();
+  for (int i = 0; i < size_; i++) {
+    type = jsonMod.getJSONObject(i).getString("type");
+    subType = jsonMod.getJSONObject(i).getString("subType");
+    if ((type.equals("bonus")) && (subType.equals(skill))) {
+      modValueTmp = modValueTmp + jsonMod.getJSONObject(i).getInt("fixedValue");
+    }
+  }
+
+  jsonMod = json.getJSONObject("modifiers").getJSONArray("item");
+  size_ = jsonMod.size();
+  for (int i = 0; i < size_; i++) {
+    type = jsonMod.getJSONObject(i).getString("type");
+    subType = jsonMod.getJSONObject(i).getString("subType");
+    if ((type.equals("bonus")) && (subType.equals(skill))) {
+      modValueTmp = modValueTmp + jsonMod.getJSONObject(i).getInt("fixedValue");
+    }
+  }
+
+  jsonMod = json.getJSONObject("modifiers").getJSONArray("feat");
+  size_ = jsonMod.size();
+  for (int i = 0; i < size_; i++) {
+    type = jsonMod.getJSONObject(i).getString("type");
+    subType = jsonMod.getJSONObject(i).getString("subType");
+    if ((type.equals("bonus")) && (subType.equals(skill))) {
+      modValueTmp = modValueTmp + jsonMod.getJSONObject(i).getInt("fixedValue");
+    }
+  }
+
+  jsonMod = json.getJSONObject("modifiers").getJSONArray("condition");
+  size_ = jsonMod.size();
+  for (int i = 0; i < size_; i++) {
+    type = jsonMod.getJSONObject(i).getString("type");
+    subType = jsonMod.getJSONObject(i).getString("subType");
+    if ((type.equals("bonus")) && (subType.equals(skill))) {
+      modValueTmp = modValueTmp + jsonMod.getJSONObject(i).getInt("fixedValue");
+    }
+  }
+
+  return modValueTmp;
+}
+
+int getModifierFromScore(int score) {
+  return floor((score - 10) / 2);
+}
