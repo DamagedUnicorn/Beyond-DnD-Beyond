@@ -1,4 +1,4 @@
-void addButton() {
+void addButtons() {
 
   cp5.addButton("check1") .setLabel("Acrobatics")    .setPosition(50, 100) .setSize(buttonWidth, buttonHeight).setFont(font).setColorBackground(statColors[1]);
   cp5.addButton("check2") .setLabel("Animal Hand.")  .setPosition(50, 200) .setSize(buttonWidth, buttonHeight).setFont(font).setColorBackground(statColors[4]);
@@ -27,4 +27,10 @@ void addButton() {
   cp5.addButton("save6").setLabel("CHA save").setPosition(width/2-buttonWidth/2, 600).setSize(buttonWidth, buttonHeight).setFont(font).setColorBackground(statColors[5]);
 
   cp5.addButton("initiative").setLabel("Initiative").setPosition(50, 750).setSize(buttonWidth, buttonHeight).setFont(font).setColorBackground(color(255, 0, 0));
+
+  for (int i = 0; i < weaponListLen; i++) {
+    if (weapons[i] != null) {
+      cp5.addButton("attack" + str(i+1)).setLabel(weapons[i]).setPosition(width-250, (i+1)*100).setSize(buttonWidth, buttonHeight).setFont(font);
+    }
+  }
 }

@@ -32,4 +32,22 @@ void getStatsAndModifiers() {
   savingThrowModifiers[3] = getModifierFromScore(modifiedStats[3]) + getSavingThrowProficiencyModifiers("intelligence") * proficiencyBonus;
   savingThrowModifiers[4] = getModifierFromScore(modifiedStats[4]) + getSavingThrowProficiencyModifiers("wisdom") * proficiencyBonus;
   savingThrowModifiers[5] = getModifierFromScore(modifiedStats[5]) + getSavingThrowProficiencyModifiers("charisma") * proficiencyBonus;
+
+  for (int i = 0; i < weaponListLen; i++) {
+    if (weapons[i] != null) {
+      if (isWeaponFinesse[i]) {
+        if ((isWeaponLight[i] == true) && (!isWeaponLightZeroMultiplier[i])) {
+          weaponsModifiers[i] = 0;
+        } else {
+          weaponsModifiers[i] = max(getModifierFromScore(modifiedStats[0]), getModifierFromScore(modifiedStats[1]));
+        }
+      } else {
+        if ((isWeaponLight[i] == true) && (!isWeaponLightZeroMultiplier[i])) {
+          weaponsModifiers[i] = 0;
+        } else {
+          weaponsModifiers[i] = getModifierFromScore(modifiedStats[0]);
+        }
+      }
+    }
+  }
 }

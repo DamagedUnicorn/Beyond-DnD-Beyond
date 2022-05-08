@@ -1,8 +1,9 @@
 void getJSONData() {
 
-  json = loadJSONObject(dndUrl + characterId).getJSONObject("data");
-  jsonStats = json.getJSONArray("stats");
-  jsonClasses = json.getJSONArray("classes");
+  json          = loadJSONObject(dndUrl + characterId).getJSONObject("data");
+  jsonStats     = json.getJSONArray("stats");
+  jsonClasses   = json.getJSONArray("classes");
+  jsonInventory = json.getJSONArray("inventory");
 
   characterClass = jsonClasses.getJSONObject(0).getJSONObject("definition").getString("name");
   level = jsonClasses.getJSONObject(0).getInt("level");

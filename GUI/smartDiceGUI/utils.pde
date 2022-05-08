@@ -101,6 +101,46 @@ void controlEvent(CallbackEvent event) {
       currentRoll = "Initiative";
       modifier = getModifierFromScore(modifiedStats[1]);
       break;
+    case "/attack1":
+      currentRoll = weapons[0];
+      modifier = weaponsModifiers[0];
+      break;
+    case "/attack2":
+      currentRoll = weapons[1];
+      modifier = weaponsModifiers[1];
+      break;
+      //case "/attack3":
+      //  currentRoll = weapons[2];
+      //  modifier = weaponsModifiers[2];
+      //  break;
+      //case "/attack4":
+      //  currentRoll = weapons[3];
+      //  modifier = weaponsModifiers[3];
+      //  break;
+      //case "/attack5":
+      //  currentRoll = weapons[4];
+      //  modifier = weaponsModifiers[4];
+      //  break;
+      //case "/attack6":
+      //  currentRoll = weapons[5];
+      //  modifier = weaponsModifiers[5];
+      //  break;
+      //case "/attack7":
+      //  currentRoll = weapons[6];
+      //  modifier = weaponsModifiers[6];
+      //  break;
+      //case "/attack8":
+      //  currentRoll = weapons[7];
+      //  modifier = weaponsModifiers[7];
+      //  break;
+      //case "/attack9":
+      //  currentRoll = weapons[8];
+      //  modifier = weaponsModifiers[8];
+      //  break;
+      //case "/attack10":
+      //  currentRoll = weapons[9];
+      //  modifier = weaponsModifiers[9];
+      //  break;
     }
   }
 }
@@ -133,6 +173,52 @@ int getProficiencyBonus(int lev) {
     return 6;
   }
 }
+
+void findEquippedWeapons() {
+
+  int numberOfweapons = 0;
+  size_ = jsonInventory.size();
+
+  for (int i = 0; i < size_; i++) {
+    if ((jsonInventory.getJSONObject(i).getBoolean("equipped")) &&
+      (jsonInventory.getJSONObject(i).getJSONObject("definition").getString("filterType").equals("Weapon"))) {
+      weapons[numberOfweapons] = jsonInventory.getJSONObject(i).getJSONObject("definition").getString("name");
+      size_2 = jsonInventory.getJSONObject(i).getJSONObject("definition").getJSONArray("properties").size();
+      for (int j = 0; j < size_2; j++) {
+        if (jsonInventory.getJSONObject(i).getJSONObject("definition").getJSONArray("properties").getJSONObject(j).getString("name").equals("Light")) {
+          isWeaponLight[numberOfweapons] = true;
+        }
+        if (jsonInventory.getJSONObject(i).getJSONObject("definition").getJSONArray("properties").getJSONObject(j).getString("name").equals("Finesse")) {
+          isWeaponFinesse[numberOfweapons] = true;
+        }
+      }
+      numberOfweapons++;
+    }
+  }
+
+  for (int i = 0; i < numberOfweapons; i++) {
+    for (int j = i; j < numberOfweapons; j++) {
+      if (i != j) {
+        if (weapons[i].equals(weapons[j])) {
+          weapons[i] = weapons[i] + " 1";
+          weapons[j] = weapons[j] + " 2";
+        }
+      }
+    }
+  }
+
+
+  for (int i = 0; i < weaponListLen; i++) {
+    isWeaponLightZeroMultiplier[i] = false;
+  }
+  for (int i = 0; i < weaponListLen; i++) {
+    if (isWeaponLight[i] == true) {
+      isWeaponLightZeroMultiplier[i] = true;
+      break;
+    }
+  }
+}
+
 
 int getSavingThrowProficiencyModifiers(String skill) {
   int proficiencyMultiplier = 0;
