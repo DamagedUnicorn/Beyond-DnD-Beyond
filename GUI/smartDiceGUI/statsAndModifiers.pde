@@ -34,18 +34,18 @@ void getStatsAndModifiers() {
   savingThrowModifiers[5] = getModifierFromScore(modifiedStats[5]) + getSavingThrowProficiencyModifiers("charisma") * proficiencyBonus;
 
   for (int i = 0; i < weaponListLen; i++) {
-    if (weapons[i] != null) {
+    if (weaponType[i] != null) {
       if (isWeaponFinesse[i]) {
         if ((isWeaponLight[i] == true) && (!isWeaponLightZeroMultiplier[i])) {
           weaponsModifiers[i] = 0;
         } else {
-          weaponsModifiers[i] = max(getModifierFromScore(modifiedStats[0]), getModifierFromScore(modifiedStats[1]));
+          weaponsModifiers[i] = max(getModifierFromScore(modifiedStats[0]), getModifierFromScore(modifiedStats[1])) + (isWeaponProficiency(weaponType[i]) * proficiencyBonus);
         }
       } else {
         if ((isWeaponLight[i] == true) && (!isWeaponLightZeroMultiplier[i])) {
           weaponsModifiers[i] = 0;
         } else {
-          weaponsModifiers[i] = getModifierFromScore(modifiedStats[0]);
+          weaponsModifiers[i] = getModifierFromScore(modifiedStats[0]) + (isWeaponProficiency(weaponType[i]) * proficiencyBonus);
         }
       }
     }

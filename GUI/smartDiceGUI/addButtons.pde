@@ -28,9 +28,29 @@ void addButtons() {
 
   cp5.addButton("initiative").setLabel("Initiative").setPosition(50, 750).setSize(buttonWidth, buttonHeight).setFont(font).setColorBackground(color(255, 0, 0));
 
+  final int attackPositionsX[] = {
+    width-400-buttonWidth, width-225-buttonWidth, width-50-buttonWidth,
+    width-400-buttonWidth, width-225-buttonWidth, width-50-buttonWidth,
+    width-400-buttonWidth, width-225-buttonWidth, width-50-buttonWidth,
+    width-400-buttonWidth, width-225-buttonWidth, width-50-buttonWidth,
+    width-400-buttonWidth, width-225-buttonWidth, width-50-buttonWidth,
+    width-400-buttonWidth, width-225-buttonWidth, width-50-buttonWidth
+  };
+
+  final int attackPositionsY[] = {
+    100, 100, 100,
+    200, 200, 200,
+    300, 300, 300,
+    400, 400, 400,
+    500, 500, 500,
+    600, 600, 600
+  };
+
   for (int i = 0; i < weaponListLen; i++) {
-    if (weapons[i] != null) {
-      cp5.addButton("attack" + str(i+1)).setLabel(weapons[i]).setPosition(width-250, (i+1)*100).setSize(buttonWidth, buttonHeight).setFont(font);
+    if (weaponName[i] != null) {
+      //cp5.addButton("attack" + str(i+1)).setLabel(weaponName[i]).setPosition(width-250, (i+1)*100).setSize(buttonWidth, buttonHeight).setFont(font);
+      cp5.addButton("attack" + str(i+1)).setLabel(weaponName[i]).setPosition(attackPositionsX[attackButtonCounter], attackPositionsY[attackButtonCounter]).setSize(buttonWidth, buttonHeight).setFont(font);
+      attackButtonCounter++;
     }
   }
 }

@@ -102,11 +102,11 @@ void controlEvent(CallbackEvent event) {
       modifier = getModifierFromScore(modifiedStats[1]);
       break;
     case "/attack1":
-      currentRoll = weapons[0];
+      currentRoll = weaponName[0];
       modifier = weaponsModifiers[0];
       break;
     case "/attack2":
-      currentRoll = weapons[1];
+      currentRoll = weaponName[1];
       modifier = weaponsModifiers[1];
       break;
       //case "/attack3":
@@ -174,6 +174,49 @@ int getProficiencyBonus(int lev) {
   }
 }
 
+int isWeaponProficiency (String _weaponType) {
+
+  jsonMod = json.getJSONObject("modifiers").getJSONArray("class");
+  size_   = jsonMod.size();
+
+  for (int i = 0; i < size_; i++) {
+    type    = jsonMod.getJSONObject(i).getString("type");
+    subType = jsonMod.getJSONObject(i).getString("subType");
+    if (type.equals("proficiency")) {
+      if (subType.equals("simple-weapons")) {
+        for (int j = 0; j < 14; j++) {
+          if (_weaponType.equals(simpleWeapons[j])) {
+            return 1;
+          }
+        }
+      } else if (subType.equals("martial-weapons")) {
+        for (int j = 0; j < 23; j++) {
+          if (_weaponType.equals(martialWeapons[i])) {
+            return 1;
+          }
+        }
+      } else {
+        if (_weaponType.equals(subType)) {
+          return 1;
+        }
+      }
+    }
+  }
+  
+  // class, item, ...
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  return 0;
+}
+
+
 void findEquippedWeapons() {
 
   int numberOfweapons = 0;
@@ -182,7 +225,8 @@ void findEquippedWeapons() {
   for (int i = 0; i < size_; i++) {
     if ((jsonInventory.getJSONObject(i).getBoolean("equipped")) &&
       (jsonInventory.getJSONObject(i).getJSONObject("definition").getString("filterType").equals("Weapon"))) {
-      weapons[numberOfweapons] = jsonInventory.getJSONObject(i).getJSONObject("definition").getString("name");
+      weaponName[numberOfweapons] = jsonInventory.getJSONObject(i).getJSONObject("definition").getString("name");
+      weaponType[numberOfweapons] = jsonInventory.getJSONObject(i).getJSONObject("definition").getString("type");
       size_2 = jsonInventory.getJSONObject(i).getJSONObject("definition").getJSONArray("properties").size();
       for (int j = 0; j < size_2; j++) {
         if (jsonInventory.getJSONObject(i).getJSONObject("definition").getJSONArray("properties").getJSONObject(j).getString("name").equals("Light")) {
@@ -199,9 +243,9 @@ void findEquippedWeapons() {
   for (int i = 0; i < numberOfweapons; i++) {
     for (int j = i; j < numberOfweapons; j++) {
       if (i != j) {
-        if (weapons[i].equals(weapons[j])) {
-          weapons[i] = weapons[i] + " 1";
-          weapons[j] = weapons[j] + " 2";
+        if (weaponName[i].equals(weaponName[j])) {
+          weaponName[i] = weaponName[i] + " 1";
+          weaponName[j] = weaponName[j] + " 2";
         }
       }
     }

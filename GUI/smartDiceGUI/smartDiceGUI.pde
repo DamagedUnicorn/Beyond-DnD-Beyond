@@ -7,6 +7,11 @@
 // then fetch name
 // if two of the same are equipped and two weapon fighting, make one main and off hand
 // to find modifier: if finesse max(str, dex) ortherwise str, if profficient add prof bonus
+// -------------------------
+// make proficientWeapons array with all weapon proficiencies with expand()
+// extarct type from inventory
+// if type is in proficientWeapons then add prof. bonus
+// type inventory name for plotting
 
 // library import
 import processing.serial.*;
@@ -61,11 +66,56 @@ String name;
 
 // Attacks
 int weaponListLen = 10;
-String[] weapons = new String[weaponListLen];
+//String[] weapons = new String[weaponListLen];
+String[] weaponName = new String[weaponListLen];
+String[] weaponType = new String[weaponListLen];
 boolean[] isWeaponLight = new boolean[weaponListLen];
 boolean[] isWeaponLightZeroMultiplier = new boolean[weaponListLen];
 boolean[] isWeaponFinesse = new boolean[weaponListLen];
 int[] weaponsModifiers = new int[weaponListLen];
+int attackButtonCounter = 0;
+final String simpleWeapons[] = {
+  "Club", 
+  "Dagger", 
+  "Greatclub", 
+  "Handaxe", 
+  "Javellin", 
+  "Light-hammer", 
+  "Mace", 
+  "Quarter-staff", 
+  "Sickle", 
+  "spear", 
+  "Crossbow, light", 
+  "Dart", 
+  "Shortbow", 
+  "Sling"
+};
+
+final String martialWeapons[] = {
+  "Battleaxe",
+  "Flail",
+  "Glaive",
+  "Greataxe",
+  "Greatsword",
+  "Halberd",
+  "Lance",
+  "Longsword",
+  "Maul",
+  "Morningstar",
+  "Pike",
+  "Rapier",
+  "Scimitar",
+  "Shortsword",
+  "Trident",
+  "war-pick",
+  "Warhammer",
+  "Whip",
+  "Blowgun",
+  "Crossbow, hand",
+  "Crossbow, heavy",
+  "Longbow",
+  "Net"
+};
 
 // image
 PImage img;
