@@ -1,6 +1,6 @@
 void getJSONData() {
 
-  json          = loadJSONObject(dndUrl + characterId).getJSONObject("data");
+  json          = loadJSONObject(dndUrl + str(characterId)).getJSONObject("data");
   jsonStats     = json.getJSONArray("stats");
   jsonClasses   = json.getJSONArray("classes");
   jsonInventory = json.getJSONArray("inventory");

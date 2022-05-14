@@ -22,7 +22,7 @@ Serial port;
 final String myPort = "/dev/cu.usbmodem14301";
 
 // D&D Beyond information
-final String characterId = "65349572"; // 65349572, 65602976
+final int characterId = 65349741; // Steve 65349572, Spelta 65602976, Dagnathoin 65349741
 final String dndUrl = "https://character-service.dndbeyond.com/character/v3/character/";
 
 // text formatting
@@ -37,6 +37,8 @@ JSONArray jsonStats;
 JSONArray jsonClasses;
 JSONArray jsonMod;
 JSONArray jsonInventory;
+int jsonInventoryId;
+JSONArray jsonCharacterValues;
 final String modifierOrigins[] = {"race", "class", "background", "item", "feat", "condition"};
 
 // temporary structures
@@ -84,7 +86,7 @@ final String simpleWeapons[] = {
   "Javellin", 
   "Light-hammer", 
   "Mace", 
-  "Quarter-staff", 
+  "Quarterstaff", 
   "Sickle", 
   "spear", 
   "Crossbow, light", 
