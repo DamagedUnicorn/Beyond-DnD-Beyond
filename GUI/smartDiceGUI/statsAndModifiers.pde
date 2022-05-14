@@ -36,17 +36,17 @@ void getStatsAndModifiers() {
   for (int i = 0; i < weaponListLen; i++) {
     if (weaponType[i] != null) {
       if (isWeaponFinesse[i]) {
-        if ((isWeaponLight[i] == true) && (!isWeaponLightZeroMultiplier[i])) {
-          weaponsModifiers[i] = 0;
-        } else {
-          weaponsModifiers[i] = max(getModifierFromScore(modifiedStats[0]), getModifierFromScore(modifiedStats[1])) + (isWeaponProficiency(weaponType[i]) * proficiencyBonus);
-        }
+        //if ((isWeaponLight[i] == true) && (!isWeaponLightZeroMultiplier[i])) {
+        //weaponsModifiers[i] = 0;
+        //} else {
+        weaponsModifiers[i] = max(getModifierFromScore(modifiedStats[0]), getModifierFromScore(modifiedStats[1])) + (isWeaponProficiency(weaponType[i]) * proficiencyBonus);
+        //}
       } else {
-        if ((isWeaponLight[i] == true) && (!isWeaponLightZeroMultiplier[i])) {
-          weaponsModifiers[i] = 0;
-        } else {
-          weaponsModifiers[i] = getModifierFromScore(modifiedStats[0]) + (isWeaponProficiency(weaponType[i]) * proficiencyBonus);
-        }
+        //if ((isWeaponLight[i] == true) && (!isWeaponLightZeroMultiplier[i])) {
+        // weaponsModifiers[i] = 0;
+        //} else {
+        weaponsModifiers[i] = getModifierFromScore(modifiedStats[0]) + (isWeaponProficiency(weaponType[i]) * proficiencyBonus);
+        //}
       }
     }
   }

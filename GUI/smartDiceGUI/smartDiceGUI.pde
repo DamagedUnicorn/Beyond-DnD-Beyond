@@ -37,6 +37,7 @@ JSONArray jsonStats;
 JSONArray jsonClasses;
 JSONArray jsonMod;
 JSONArray jsonInventory;
+final String modifierOrigins[] = {"race", "class", "background", "item", "feat", "condition"};
 
 // temporary structures
 static String lineVal; // Data received from the serial port
@@ -45,6 +46,7 @@ String tmpWeapon;
 int size_;
 int size_2;
 //boolean isEquipped;
+boolean COMPortTrue;
 
 // sensor and modifier  srtructures
 int sensorVal = 0;
@@ -92,28 +94,28 @@ final String simpleWeapons[] = {
 };
 
 final String martialWeapons[] = {
-  "Battleaxe",
-  "Flail",
-  "Glaive",
-  "Greataxe",
-  "Greatsword",
-  "Halberd",
-  "Lance",
-  "Longsword",
-  "Maul",
-  "Morningstar",
-  "Pike",
-  "Rapier",
-  "Scimitar",
-  "Shortsword",
-  "Trident",
-  "war-pick",
-  "Warhammer",
-  "Whip",
-  "Blowgun",
-  "Crossbow, hand",
-  "Crossbow, heavy",
-  "Longbow",
+  "Battleaxe", 
+  "Flail", 
+  "Glaive", 
+  "Greataxe", 
+  "Greatsword", 
+  "Halberd", 
+  "Lance", 
+  "Longsword", 
+  "Maul", 
+  "Morningstar", 
+  "Pike", 
+  "Rapier", 
+  "Scimitar", 
+  "Shortsword", 
+  "Trident", 
+  "war-pick", 
+  "Warhammer", 
+  "Whip", 
+  "Blowgun", 
+  "Crossbow, hand", 
+  "Crossbow, heavy", 
+  "Longbow", 
   "Net"
 };
 
@@ -136,9 +138,13 @@ final int buttonHeight = 70;
 void setup() {
 
   fullScreen();
-
-  port = new Serial(this, myPort, 9600);
-
+  try {
+    port = new Serial(this, myPort, 9600);
+    COMPortTrue = true;
+  }    
+  catch(Exception e) {
+    COMPortTrue = false;
+  }
   font = createFont("Serif", 18);
   cp5 = new ControlP5(this);
 
@@ -168,7 +174,7 @@ void draw() {
 
   text(name, width/2, 70);
 
-  myRead();
+  myRead(COMPortTrue);
 
   image(img, width/2 - 300, 5);
 }

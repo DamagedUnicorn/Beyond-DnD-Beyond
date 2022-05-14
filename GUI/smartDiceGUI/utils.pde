@@ -145,17 +145,19 @@ void controlEvent(CallbackEvent event) {
   }
 }
 
-void myRead() {
-  if ( port.available() > 0) {  // If data is available,
-    lineVal = port.readStringUntil('\n'); 
-    try {
-      tmp = Integer.valueOf(lineVal.trim());
-      if (tmp != 0) {
-        sensorVal = tmp;
+void myRead(boolean go) {
+  if (go) {
+    if ( port.available() > 0) {  // If data is available,
+      lineVal = port.readStringUntil('\n'); 
+      try {
+        tmp = Integer.valueOf(lineVal.trim());
+        if (tmp != 0) {
+          sensorVal = tmp;
+        }
       }
-    }
-    catch(Exception e) {
-      ;
+      catch(Exception e) {
+        ;
+      }
     }
   }
 }
@@ -176,43 +178,34 @@ int getProficiencyBonus(int lev) {
 
 int isWeaponProficiency (String _weaponType) {
 
-  jsonMod = json.getJSONObject("modifiers").getJSONArray("class");
-  size_   = jsonMod.size();
+  for (int k = 0; k < 6; k++) {
+    jsonMod = json.getJSONObject("modifiers").getJSONArray(modifierOrigins[k]);
+    size_   = jsonMod.size();
 
-  for (int i = 0; i < size_; i++) {
-    type    = jsonMod.getJSONObject(i).getString("type");
-    subType = jsonMod.getJSONObject(i).getString("subType");
-    if (type.equals("proficiency")) {
-      if (subType.equals("simple-weapons")) {
-        for (int j = 0; j < 14; j++) {
-          if (_weaponType.equals(simpleWeapons[j])) {
+    for (int i = 0; i < size_; i++) {
+      type    = jsonMod.getJSONObject(i).getString("type");
+      subType = jsonMod.getJSONObject(i).getString("subType");
+      if (type.equals("proficiency")) {
+        if (subType.equals("simple-weapons")) {
+          for (int j = 0; j < 14; j++) {
+            if (_weaponType.equals(simpleWeapons[j])) {
+              return 1;
+            }
+          }
+        } else if (subType.equals("martial-weapons")) {
+          for (int j = 0; j < 23; j++) {
+            if (_weaponType.equals(martialWeapons[i])) {
+              return 1;
+            }
+          }
+        } else {
+          if (_weaponType.equals(subType)) {
             return 1;
           }
-        }
-      } else if (subType.equals("martial-weapons")) {
-        for (int j = 0; j < 23; j++) {
-          if (_weaponType.equals(martialWeapons[i])) {
-            return 1;
-          }
-        }
-      } else {
-        if (_weaponType.equals(subType)) {
-          return 1;
         }
       }
     }
   }
-  
-  // class, item, ...
-  
-  
-  
-  
-  
-  
-  
-  
-  
   return 0;
 }
 
