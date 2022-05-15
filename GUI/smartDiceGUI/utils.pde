@@ -109,14 +109,14 @@ void controlEvent(CallbackEvent event) {
       currentRoll = weaponName[1];
       modifier = weaponsModifiers[1];
       break;
-      //case "/attack3":
-      //  currentRoll = weapons[2];
-      //  modifier = weaponsModifiers[2];
-      //  break;
-      //case "/attack4":
-      //  currentRoll = weapons[3];
-      //  modifier = weaponsModifiers[3];
-      //  break;
+    case "/attack3":
+      currentRoll = weaponName[2];
+      modifier = weaponsModifiers[2];
+      break;
+    case "/attack4":
+      currentRoll = weaponName[3];
+      modifier = weaponsModifiers[3];
+      break;
       //case "/attack5":
       //  currentRoll = weapons[4];
       //  modifier = weaponsModifiers[4];
@@ -212,7 +212,6 @@ int isWeaponProficiency (String _weaponType) {
 
 void findEquippedWeapons() {
 
-  int numberOfweapons = 0;
   size_ = jsonInventory.size();
 
   for (int i = 0; i < size_; i++) {
@@ -264,6 +263,49 @@ void findEquippedWeapons() {
     if (isWeaponLight[i] == true) {
       isWeaponLightZeroMultiplier[i] = true;
       break;
+    }
+  }
+}
+
+void findSpells() {
+  jsonCharacterValues = json.getJSONArray("characterValues");
+  //jsonClassSpells = json.getJSONArray("classSpells");
+  int classSpellsSize = json.getJSONArray("classSpells").getJSONObject(0).getJSONArray("spells").size();
+  for (int i = 0; i < classSpellsSize; i++) {
+
+    try {
+      if (str(json.getJSONArray("classSpells").getJSONObject(0).getJSONArray("spells").getJSONObject(i).getJSONObject("definition").getInt("attackType")).equals("2")) {
+        //println(json.getJSONArray("classSpells").getJSONObject(0).getJSONArray("spells").getJSONObject(i).getJSONObject("definition").getString("name"));
+
+        jsonSpellId = json.getJSONArray("classSpells").getJSONObject(0).getJSONArray("spells").getJSONObject(i).getInt("id");
+        jsonCharacterValues = json.getJSONArray("characterValues");
+        int charValSize = jsonCharacterValues.size();
+
+
+        weaponName[numberOfweapons + numberOfSpells] = json.getJSONArray("classSpells").getJSONObject(0).getJSONArray("spells").getJSONObject(i).getJSONObject("definition").getString("name");
+        for (int k = 0; k < charValSize; k++) {
+          println(weaponName[numberOfweapons + numberOfSpells] = json.getJSONArray("classSpells").getJSONObject(0).getJSONArray("spells").getJSONObject(i).getJSONObject("definition").getString("name"));
+          if (str(jsonSpellId).equals(jsonCharacterValues.getJSONObject(k).getString("valueId"))) {
+            weaponName[numberOfweapons + numberOfSpells] = jsonCharacterValues.getJSONObject(k).getString("value");
+            break;
+          }
+        }
+
+        //for (int k = 0; k < charValSize; k++) {
+        //  println(weaponName[numberOfweapons + numberOfSpells] = json.getJSONArray("classSpells").getJSONObject(0).getJSONArray("spells").getJSONObject(i).getJSONObject("definition").getString("name"));
+        //  if (str(jsonSpellId).equals(jsonCharacterValues.getJSONObject(k).getString("valueId"))) {
+        //    weaponName[numberOfweapons + numberOfSpells] = jsonCharacterValues.getJSONObject(k).getString("value");
+        //    break;
+        //  } else {
+        //    weaponName[numberOfweapons + numberOfSpells] = json.getJSONArray("classSpells").getJSONObject(0).getJSONArray("spells").getJSONObject(i).getJSONObject("definition").getString("name");
+        //  }
+        //}
+        //weaponName[numberOfweapons + numberOfSpells] = json.getJSONArray("classSpells").getJSONObject(0).getJSONArray("spells").getJSONObject(i).getJSONObject("definition").getString("name");
+        numberOfSpells++;
+      }
+    }
+    catch(Exception e) {
+      ;
     }
   }
 }

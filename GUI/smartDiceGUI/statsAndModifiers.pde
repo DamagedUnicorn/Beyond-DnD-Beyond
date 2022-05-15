@@ -34,19 +34,39 @@ void getStatsAndModifiers() {
   savingThrowModifiers[5] = getModifierFromScore(modifiedStats[5]) + getSavingThrowProficiencyModifiers("charisma") * proficiencyBonus;
 
   for (int i = 0; i < weaponListLen; i++) {
-    if (weaponType[i] != null) {
-      if (isWeaponFinesse[i]) {
-        //if ((isWeaponLight[i] == true) && (!isWeaponLightZeroMultiplier[i])) {
-        //weaponsModifiers[i] = 0;
-        //} else {
-        weaponsModifiers[i] = max(getModifierFromScore(modifiedStats[0]), getModifierFromScore(modifiedStats[1])) + (isWeaponProficiency(weaponType[i]) * proficiencyBonus);
-        //}
-      } else {
-        //if ((isWeaponLight[i] == true) && (!isWeaponLightZeroMultiplier[i])) {
-        // weaponsModifiers[i] = 0;
-        //} else {
-        weaponsModifiers[i] = getModifierFromScore(modifiedStats[0]) + (isWeaponProficiency(weaponType[i]) * proficiencyBonus);
-        //}
+    if (i < numberOfweapons) { // handle weapons
+      if (weaponType[i] != null) {
+        if (isWeaponFinesse[i]) {
+          //if ((isWeaponLight[i] == true) && (!isWeaponLightZeroMultiplier[i])) {
+          //weaponsModifiers[i] = 0;
+          //} else {
+          weaponsModifiers[i] = max(getModifierFromScore(modifiedStats[0]), getModifierFromScore(modifiedStats[1])) + (isWeaponProficiency(weaponType[i]) * proficiencyBonus);
+          //}
+        } else {
+          //if ((isWeaponLight[i] == true) && (!isWeaponLightZeroMultiplier[i])) {
+          // weaponsModifiers[i] = 0;
+          //} else {
+          weaponsModifiers[i] = getModifierFromScore(modifiedStats[0]) + (isWeaponProficiency(weaponType[i]) * proficiencyBonus);
+          //}
+        }
+      }
+    } else if (i < (numberOfweapons + numberOfSpells)) { // handle spells
+      try {
+        //print(jsonClasses.getJSONObject(0).getJSONObject("definition").getInt("spellCastingAbilityId"));
+        switch(jsonClasses.getJSONObject(0).getJSONObject("definition").getInt("spellCastingAbilityId")) {
+        case 4:
+          weaponsModifiers[i] = getModifierFromScore(modifiedStats[3]) + proficiencyBonus;
+          break;
+        case 5:
+          weaponsModifiers[i] = getModifierFromScore(modifiedStats[4]) + proficiencyBonus;
+          break;
+        case 6:
+          weaponsModifiers[i] = getModifierFromScore(modifiedStats[5]) + proficiencyBonus;
+          break;
+        }
+      }
+      catch(Exception e) {
+        ;
       }
     }
   }

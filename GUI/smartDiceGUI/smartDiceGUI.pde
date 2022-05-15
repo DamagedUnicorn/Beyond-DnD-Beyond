@@ -16,7 +16,7 @@ Serial port;
 final String myPort = "/dev/cu.usbmodem14301";
 
 // D&D Beyond information
-final int characterId = 65349741; // Steve 65349572, Spelta 65602976, Dagnathoin 65349741
+final int characterId = 65349741; // Steve 65349572, Spelta 65602976, Dagnathoin 65349741, Tim 65358232
 final String dndUrl = "https://character-service.dndbeyond.com/character/v3/character/";
 
 // text formatting
@@ -32,7 +32,9 @@ JSONArray jsonClasses;
 JSONArray jsonMod;
 JSONArray jsonInventory;
 int jsonInventoryId;
+int jsonSpellId;
 JSONArray jsonCharacterValues;
+//JSONArray jsonClassSpells;
 final String modifierOrigins[] = {"race", "class", "background", "item", "feat", "condition"};
 
 // temporary structures
@@ -63,7 +65,9 @@ String characterClass;
 String name;
 
 // Attacks
-int weaponListLen = 10;
+int weaponListLen = 18;
+int numberOfweapons = 0;
+int numberOfSpells = 0;
 //String[] weapons = new String[weaponListLen];
 String[] weaponName = new String[weaponListLen];
 String[] weaponType = new String[weaponListLen];
@@ -146,6 +150,10 @@ void setup() {
 
   getJSONData();
   findEquippedWeapons();
+  findSpells();
+  //print(weaponName);
+  //print(weaponsModifiers);
+  
   getStatsAndModifiers();
 
   setupClassSymbol();
