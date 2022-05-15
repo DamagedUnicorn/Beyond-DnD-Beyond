@@ -16,7 +16,7 @@ Serial port;
 final String myPort = "/dev/cu.usbmodem14301";
 
 // D&D Beyond information
-final int characterId = 26054991; // Steve 65349572, Spelta 65602976, Dagnathoin 65349741, Tim 65358232, Torben 26054991
+final int characterId = 45441447; // Steve 65349572, Spelta 65602976, Dagnathoin 65349741, Tim 65358232, Torben 26054991, BS 45441447
 final String dndUrl = "https://character-service.dndbeyond.com/character/v3/character/";
 
 // text formatting

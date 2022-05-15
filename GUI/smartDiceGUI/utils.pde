@@ -117,30 +117,62 @@ void controlEvent(CallbackEvent event) {
       currentRoll = weaponName[3];
       modifier = weaponsModifiers[3];
       break;
-      //case "/attack5":
-      //  currentRoll = weapons[4];
-      //  modifier = weaponsModifiers[4];
-      //  break;
-      //case "/attack6":
-      //  currentRoll = weapons[5];
-      //  modifier = weaponsModifiers[5];
-      //  break;
-      //case "/attack7":
-      //  currentRoll = weapons[6];
-      //  modifier = weaponsModifiers[6];
-      //  break;
-      //case "/attack8":
-      //  currentRoll = weapons[7];
-      //  modifier = weaponsModifiers[7];
-      //  break;
-      //case "/attack9":
-      //  currentRoll = weapons[8];
-      //  modifier = weaponsModifiers[8];
-      //  break;
-      //case "/attack10":
-      //  currentRoll = weapons[9];
-      //  modifier = weaponsModifiers[9];
-      //  break;
+    case "/attack5":
+      currentRoll = weaponName[4];
+      modifier = weaponsModifiers[4];
+      break;
+    case "/attack6":
+      currentRoll = weaponName[5];
+      modifier = weaponsModifiers[5];
+      break;
+    case "/attack7":
+      currentRoll = weaponName[6];
+      modifier = weaponsModifiers[6];
+      break;
+    case "/attack8":
+      currentRoll = weaponName[7];
+      modifier = weaponsModifiers[7];
+      break;
+    case "/attack9":
+      currentRoll = weaponName[8];
+      modifier = weaponsModifiers[8];
+      break;
+    case "/attack10":
+      currentRoll = weaponName[9];
+      modifier = weaponsModifiers[9];
+      break;
+    case "/attack11":
+      currentRoll = weaponName[10];
+      modifier = weaponsModifiers[10];
+      break;
+    case "/attack12":
+      currentRoll = weaponName[11];
+      modifier = weaponsModifiers[11];
+      break;
+    case "/attack13":
+      currentRoll = weaponName[12];
+      modifier = weaponsModifiers[12];
+      break;
+    case "/attack14":
+      currentRoll = weaponName[13];
+      modifier = weaponsModifiers[13];
+      break;
+    case "/attack15":
+      currentRoll = weaponName[14];
+      modifier = weaponsModifiers[14];
+      break;
+    case "/attack16":
+      currentRoll = weaponName[15];
+      modifier = weaponsModifiers[15];
+      break;    
+    case "/attack17":
+      currentRoll = weaponName[16];
+      modifier = weaponsModifiers[16];
+      break;    
+    case "/attack18":
+      currentRoll = weaponName[17];
+      modifier = weaponsModifiers[17];
+      break;
     }
   }
 }
@@ -294,7 +326,7 @@ void findSpells() {
 
     try {
       if (str(json.getJSONArray("classSpells").getJSONObject(0).getJSONArray("spells").getJSONObject(i).getJSONObject("definition").getInt("attackType")).equals("1") ||
-          str(json.getJSONArray("classSpells").getJSONObject(0).getJSONArray("spells").getJSONObject(i).getJSONObject("definition").getInt("attackType")).equals("2")) {
+        str(json.getJSONArray("classSpells").getJSONObject(0).getJSONArray("spells").getJSONObject(i).getJSONObject("definition").getInt("attackType")).equals("2")) {
         //println(json.getJSONArray("classSpells").getJSONObject(0).getJSONArray("spells").getJSONObject(i).getJSONObject("definition").getString("name"));
 
         jsonSpellId = json.getJSONArray("classSpells").getJSONObject(0).getJSONArray("spells").getJSONObject(i).getInt("id");
@@ -319,8 +351,8 @@ void findSpells() {
             int gmSize = jsonInventory.getJSONObject(j).getJSONObject("definition").getJSONArray("grantedModifiers").size();
             for (int g = 0; g < gmSize; g++) {
               if (jsonInventory.getJSONObject(j).getJSONObject("definition").getJSONArray("grantedModifiers").getJSONObject(g).getString("type").equals("bonus") &&
-                  jsonInventory.getJSONObject(j).getJSONObject("definition").getJSONArray("grantedModifiers").getJSONObject(g).getString("subType").equals("spell-attacks")) {
-                    weaponsBonus[numberOfweapons + numberOfSpells] += jsonInventory.getJSONObject(j).getJSONObject("definition").getJSONArray("grantedModifiers").getJSONObject(g).getInt("fixedValue", 0);
+                jsonInventory.getJSONObject(j).getJSONObject("definition").getJSONArray("grantedModifiers").getJSONObject(g).getString("subType").equals("spell-attacks")) {
+                weaponsBonus[numberOfweapons + numberOfSpells] += jsonInventory.getJSONObject(j).getJSONObject("definition").getJSONArray("grantedModifiers").getJSONObject(g).getInt("fixedValue", 0);
               }
             }
           }
