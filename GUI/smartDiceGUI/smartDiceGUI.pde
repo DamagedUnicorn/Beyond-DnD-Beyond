@@ -16,7 +16,7 @@ Serial port;
 final String myPort = "/dev/cu.usbmodem14301";
 
 // D&D Beyond information
-final int characterId = 65349741; // Steve 65349572, Spelta 65602976, Dagnathoin 65349741, Tim 65358232
+final int characterId = 33404494; // Steve 65349572, Spelta 65602976, Dagnathoin 65349741, Tim 65358232
 final String dndUrl = "https://character-service.dndbeyond.com/character/v3/character/";
 
 // text formatting
@@ -153,8 +153,11 @@ void setup() {
   findSpells();
   //print(weaponName);
   //print(weaponsModifiers);
+  //print(weaponType);
+  print(numberOfweapons);
   
   getStatsAndModifiers();
+  //print(isWeaponProficiency(weaponType[0]));
 
   setupClassSymbol();
 

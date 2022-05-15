@@ -194,7 +194,7 @@ int isWeaponProficiency (String _weaponType) {
           }
         } else if (subType.equals("martial-weapons")) {
           for (int j = 0; j < 23; j++) {
-            if (_weaponType.equals(martialWeapons[i])) {
+            if (_weaponType.equals(martialWeapons[j])) {
               return 1;
             }
           }
@@ -232,14 +232,19 @@ void findEquippedWeapons() {
       jsonInventoryId = jsonInventory.getJSONObject(i).getInt("id");
       jsonCharacterValues = json.getJSONArray("characterValues");
       int charValSize = jsonCharacterValues.size();
-      for (int k = 0; k < charValSize; k++) {
-        if (str(jsonInventoryId).equals(jsonCharacterValues.getJSONObject(k).getString("valueId"))) {
-          weaponName[numberOfweapons] = jsonCharacterValues.getJSONObject(k).getString("value");
-          break;
-        } else {
-          weaponName[numberOfweapons] = jsonInventory.getJSONObject(i).getJSONObject("definition").getString("name");
+      if (charValSize > 0) {
+        for (int k = 0; k < charValSize; k++) {
+          if (str(jsonInventoryId).equals(jsonCharacterValues.getJSONObject(k).getString("valueId"))) {
+            weaponName[numberOfweapons] = jsonCharacterValues.getJSONObject(k).getString("value");
+            break;
+          } else {
+            weaponName[numberOfweapons] = jsonInventory.getJSONObject(i).getJSONObject("definition").getString("name");
+          }
         }
+      } else {
+        weaponName[numberOfweapons] = jsonInventory.getJSONObject(i).getJSONObject("definition").getString("name");
       }
+
       numberOfweapons++;
     }
   }
