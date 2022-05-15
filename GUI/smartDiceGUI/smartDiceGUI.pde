@@ -1,17 +1,11 @@
 // inspiration
 // https://colab.research.google.com/drive/1rfc6Qd7l-PSdIHKEMnQdeImXL_XjI5-v?usp=sharing#scrollTo=l-8AvJV3T96e
 
-// POSSIBILITIES
-// in JSON under inventory, find items with equipped=true
-// if they have filterType=Weapon or damage in tags or some other indicator
-// then fetch name
-// if two of the same are equipped and two weapon fighting, make one main and off hand
-// to find modifier: if finesse max(str, dex) ortherwise str, if profficient add prof bonus
-// -------------------------
-// make proficientWeapons array with all weapon proficiencies with expand()
-// extarct type from inventory
-// if type is in proficientWeapons then add prof. bonus
-// type inventory name for plotting
+// spells
+// under classSpells
+// the id can be mapped to characterValues to get name
+// attackType=2 might indicate if a hit roll is needed or maybe if "Damage" is in tags
+
 
 // library import
 import processing.serial.*;
