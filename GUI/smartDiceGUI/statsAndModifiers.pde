@@ -40,28 +40,27 @@ void getStatsAndModifiers() {
           //if ((isWeaponLight[i] == true) && (!isWeaponLightZeroMultiplier[i])) {
           //weaponsModifiers[i] = 0;
           //} else {
-          weaponsModifiers[i] = max(getModifierFromScore(modifiedStats[0]), getModifierFromScore(modifiedStats[1])) + (isWeaponProficiency(weaponType[i]) * proficiencyBonus);
+          weaponsModifiers[i] = max(getModifierFromScore(modifiedStats[0]), getModifierFromScore(modifiedStats[1])) + (isWeaponProficiency(weaponType[i]) * proficiencyBonus) + weaponsBonus[i];
           //}
         } else {
           //if ((isWeaponLight[i] == true) && (!isWeaponLightZeroMultiplier[i])) {
           // weaponsModifiers[i] = 0;
           //} else {
-          weaponsModifiers[i] = getModifierFromScore(modifiedStats[0]) + (isWeaponProficiency(weaponType[i]) * proficiencyBonus);
+          weaponsModifiers[i] = getModifierFromScore(modifiedStats[0]) + (isWeaponProficiency(weaponType[i]) * proficiencyBonus) + weaponsBonus[i];
           //}
         }
       }
     } else if (i < (numberOfweapons + numberOfSpells)) { // handle spells
       try {
-        //print(jsonClasses.getJSONObject(0).getJSONObject("definition").getInt("spellCastingAbilityId"));
         switch(jsonClasses.getJSONObject(0).getJSONObject("definition").getInt("spellCastingAbilityId")) {
         case 4:
-          weaponsModifiers[i] = getModifierFromScore(modifiedStats[3]) + proficiencyBonus;
+          weaponsModifiers[i] = getModifierFromScore(modifiedStats[3]) + proficiencyBonus + weaponsBonus[i];
           break;
         case 5:
-          weaponsModifiers[i] = getModifierFromScore(modifiedStats[4]) + proficiencyBonus;
+          weaponsModifiers[i] = getModifierFromScore(modifiedStats[4]) + proficiencyBonus + weaponsBonus[i];
           break;
         case 6:
-          weaponsModifiers[i] = getModifierFromScore(modifiedStats[5]) + proficiencyBonus;
+          weaponsModifiers[i] = getModifierFromScore(modifiedStats[5]) + proficiencyBonus + weaponsBonus[i];
           break;
         }
       }

@@ -16,7 +16,7 @@ Serial port;
 final String myPort = "/dev/cu.usbmodem14301";
 
 // D&D Beyond information
-final int characterId = 33404494; // Steve 65349572, Spelta 65602976, Dagnathoin 65349741, Tim 65358232
+final int characterId = 26054991; // Steve 65349572, Spelta 65602976, Dagnathoin 65349741, Tim 65358232, Torben 26054991
 final String dndUrl = "https://character-service.dndbeyond.com/character/v3/character/";
 
 // text formatting
@@ -75,6 +75,7 @@ boolean[] isWeaponLight = new boolean[weaponListLen];
 boolean[] isWeaponLightZeroMultiplier = new boolean[weaponListLen];
 boolean[] isWeaponFinesse = new boolean[weaponListLen];
 int[] weaponsModifiers = new int[weaponListLen];
+int[] weaponsBonus = new int[weaponListLen];
 int attackButtonCounter = 0;
 final String simpleWeapons[] = {
   "Club", 
@@ -154,10 +155,11 @@ void setup() {
   //print(weaponName);
   //print(weaponsModifiers);
   //print(weaponType);
-  print(numberOfweapons);
+  //print(numberOfweapons);
   
   getStatsAndModifiers();
   //print(isWeaponProficiency(weaponType[0]));
+  //println(weaponsBonus);
 
   setupClassSymbol();
 
@@ -183,5 +185,5 @@ void draw() {
 
   myRead(COMPortTrue);
 
-  image(img, width/2 - 300, 5);
+  image(img, width/2 - 400, 5);
 }
