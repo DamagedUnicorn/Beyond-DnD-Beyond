@@ -1,0 +1,1 @@
+#!/usr/bin/env python3# -*- coding: utf-8 -*-"""Created on Mon Jul  4 22:25:57 2022@author: thorknudsen"""from character import CharactercharacterId = 65349572if __name__ == "__main__":    character = Character(characterId)
