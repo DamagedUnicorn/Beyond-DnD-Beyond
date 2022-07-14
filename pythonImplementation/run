@@ -1,4 +1,4 @@
 #!/usr/bin/env bash
 eval "$(conda shell.bash hook)"
-conda activate guienv2
+conda activate guienv3
 python /Users/thorknudsen/Documents/GitHub/smartDice/pythonImplementation/main.py
